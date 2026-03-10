@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GraamSeva — Rural Schemes Finder</title>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>GraamSeva — Government Schemes Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
     --saffron: #E8650A;
@@ -48,16 +48,7 @@
     z-index: 2;
   }
 
-  .header-bg-text {
-    position: absolute;
-    top: -10px;
-    right: -20px;
-    font-family: 'Tiro Devanagari Hindi', serif;
-    font-size: 120px;
-    color: rgba(255,255,255,0.03);
-    pointer-events: none;
-    z-index: 1;
-  }
+
 
   .logo {
     display: flex;
@@ -78,7 +69,7 @@
   }
 
   .logo-text h1 {
-    font-family: 'Tiro Devanagari Hindi', serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 28px;
     color: white;
     letter-spacing: 0.5px;
@@ -372,7 +363,7 @@
   .welcome-state .icon { font-size: 56px; margin-bottom: 16px; }
 
   .welcome-state h2 {
-    font-family: 'Tiro Devanagari Hindi', serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 26px;
     color: var(--navy);
     margin-bottom: 10px;
@@ -431,12 +422,11 @@
 <header>
   <div class="header-stripe"></div>
   <div class="header-inner">
-    <div class="header-bg-text">ग्रामसेवा</div>
     <div class="logo">
       <div class="logo-icon">🏡</div>
       <div class="logo-text">
         <h1>GraamSeva</h1>
-        <span>Rural Welfare Schemes Finder</span>
+        <span>Government Schemes Finder</span>
       </div>
     </div>
     <p class="header-desc">Find government schemes you qualify for — enter your details and discover benefits you deserve.</p>
@@ -519,7 +509,7 @@
       <div id="output">
         <div class="welcome-state">
           <div class="icon">🌾</div>
-          <h2>Apna Haq Jaano</h2>
+          <h2>Know Your Rights</h2>
           <p>Enter your details on the left to discover government welfare schemes you are eligible for — completely free.</p>
           <div class="stats-row">
             <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Schemes Listed</div></div>
@@ -533,9 +523,7 @@
   </div>
 </div>
 
-<footer>
-  Built with ❤️ for rural India &nbsp;|&nbsp; GraamSeva — Government Schemes Finder &nbsp;|&nbsp; Data sourced from official government portals
-</footer>
+
 
 <script>
 const SCHEMES = [
