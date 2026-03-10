@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GraamSeva — Rural Schemes Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --saffron: #E8650A;
+    --saffron-light: #FF8C38;
+    --green: #138808;
+    --green-light: #1aab0a;
+    --navy: #0a1628;
+    --cream: #FDF6EC;
+    --warm: #FAF0E0;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e0d8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-stripe {
+    height: 5px;
+    background: linear-gradient(90deg, var(--saffron) 33.3%, white 33.3%, white 66.6%, var(--green) 66.6%);
+  }
+
+  .header-inner {
+    padding: 28px 40px 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .header-bg-text {
+    position: absolute;
+    top: -10px;
+    right: -20px;
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 120px;
+    color: rgba(255,255,255,0.03);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .logo-text h1 {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 28px;
+    color: white;
+    letter-spacing: 0.5px;
+  }
+
+  .logo-text span {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .header-desc {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    max-width: 500px;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* FILTER PANEL */
+  .filter-panel {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    position: sticky;
+    top: 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 24px;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--warm);
+    transition: border-color 0.2s;
+    outline: none;
+    appearance: none;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    border-color: var(--saffron);
+    background: white;
+  }
+
+  .find-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  .find-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232, 101, 10, 0.35);
+  }
+
+  .find-btn:active { transform: translateY(0); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  .filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .tag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .tag.active {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+
+  .tag:hover:not(.active) {
+    border-color: var(--saffron);
+    color: var(--saffron);
+  }
+
+  /* RESULTS */
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .results-count {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .results-count strong {
+    color: var(--green);
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .tip-banner {
+    background: linear-gradient(135deg, #e8f5e9, #f0faf0);
+    border: 1px solid #b2dfdb;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--green);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .schemes-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .scheme-card {
+    background: white;
+    border-radius: 16px;
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .scheme-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .scheme-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.4;
+  }
+
+  .category-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .cat-Agriculture  { background: #fff3cd; color: #856404; }
+  .cat-Pension      { background: #d1ecf1; color: #0c5460; }
+  .cat-Health       { background: #d4edda; color: #155724; }
+  .cat-Finance      { background: #cce5ff; color: #004085; }
+  .cat-Employment   { background: #f8d7da; color: #721c24; }
+  .cat-Housing      { background: #e2d9f3; color: #432874; }
+  .cat-Social       { background: #fde8d8; color: #7d3c00; }
+  .cat-Women        { background: #fce4ec; color: #880e4f; }
+
+  .scheme-desc {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-info {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .amount-highlight {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    background: #e8f5e9;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+
+  .empty-state .icon { font-size: 52px; margin-bottom: 16px; }
+  .empty-state h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
+
+  /* WELCOME STATE */
+  .welcome-state {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .welcome-state .icon { font-size: 56px; margin-bottom: 16px; }
+
+  .welcome-state h2 {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 26px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .welcome-state p {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 380px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--saffron);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .filter-panel { position: static; }
+    .header-inner { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-stripe"></div>
+  <div class="header-inner">
+    <div class="header-bg-text">ग्रामसेवा</div>
+    <div class="logo">
+      <div class="logo-icon">🏡</div>
+      <div class="logo-text">
+        <h1>GraamSeva</h1>
+        <span>Rural Welfare Schemes Finder</span>
+      </div>
+    </div>
+    <p class="header-desc">Find government schemes you qualify for — enter your details and discover benefits you deserve.</p>
+  </div>
+</header>
+
+<div class="container">
+  <div class="layout">
+
+    <!-- FILTER PANEL -->
+    <div class="filter-panel">
+      <div class="panel-title">Your Details</div>
+
+      <div class="field">
+        <label>Age</label>
+        <input type="number" id="age" placeholder="e.g. 65" min="1" max="120"/>
+      </div>
+
+      <div class="field">
+        <label>Gender</label>
+        <select id="gender">
+          <option value="">Select gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Occupation</label>
+        <select id="occupation">
+          <option value="">Select occupation</option>
+          <option value="farmer">Farmer</option>
+          <option value="laborer">Laborer</option>
+          <option value="retired">Retired</option>
+          <option value="unemployed">Unemployed</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Annual Income</label>
+        <select id="income">
+          <option value="">Select income range</option>
+          <option value="80000">Below ₹1 lakh</option>
+          <option value="150000">₹1 lakh – ₹2 lakh</option>
+          <option value="300000">Above ₹2 lakh</option>
+        </select>
+      </div>
+
+      <button class="find-btn" onclick="findSchemes()">🔍 Find My Schemes</button>
+
+      <div class="divider"></div>
+
+      <div class="panel-title" style="margin-bottom:12px">Filter by Category</div>
+      <div class="filter-tags" id="categoryTags">
+        <span class="tag active" data-cat="All" onclick="filterCategory(this)">All</span>
+        <span class="tag" data-cat="Agriculture" onclick="filterCategory(this)">Agriculture</span>
+        <span class="tag" data-cat="Pension" onclick="filterCategory(this)">Pension</span>
+        <span class="tag" data-cat="Health" onclick="filterCategory(this)">Health</span>
+        <span class="tag" data-cat="Finance" onclick="filterCategory(this)">Finance</span>
+        <span class="tag" data-cat="Employment" onclick="filterCategory(this)">Employment</span>
+        <span class="tag" data-cat="Housing" onclick="filterCategory(this)">Housing</span>
+        <span class="tag" data-cat="Women & Family" onclick="filterCategory(this)">Women</span>
+        <span class="tag" data-cat="Social Welfare" onclick="filterCategory(this)">Social</span>
+      </div>
+    </div>
+
+    <!-- RESULTS PANEL -->
+    <div class="results-panel">
+      <div id="resultsHeader" class="results-header" style="display:none">
+        <div class="results-count">
+          <strong id="countNum">0</strong> schemes found for you
+        </div>
+      </div>
+
+      <div id="tipBanner" class="tip-banner" style="display:none">
+        💡 Carry your Aadhaar card when applying for any scheme.
+      </div>
+
+      <div id="output">
+        <div class="welcome-state">
+          <div class="icon">🌾</div>
+          <h2>Apna Haq Jaano</h2>
+          <p>Enter your details on the left to discover government welfare schemes you are eligible for — completely free.</p>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Schemes Listed</div></div>
+            <div class="stat"><div class="stat-num">₹5L+</div><div class="stat-label">Max Benefit/Year</div></div>
+            <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free to Use</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Built with ❤️ for rural India &nbsp;|&nbsp; GraamSeva — Government Schemes Finder &nbsp;|&nbsp; Data sourced from official government portals
+</footer>
+
+<script>
+const SCHEMES = [
+  {
+    name: "PM Kisan Samman Nidhi",
+    desc: "₹6,000/year direct cash transfer to farmer families in 3 installments of ₹2,000 each.",
+    category: "Agriculture",
+    amount: "₹6,000/year",
+    minAge: 18, maxAge: 100, maxIncome: 200000,
+    occupations: ["farmer"],
+    contact: "📞 Helpline: 155261"
+  },
+  {
+    name: "Indira Gandhi National Old Age Pension (IGNOAPS)",
+    desc: "Monthly pension of ₹200–₹500 for elderly people living below the poverty line.",
+    category: "Pension",
+    amount: "₹200–500/month",
+    minAge: 60, maxAge: 100, maxIncome: 100000,
+    occupations: ["farmer","laborer","unemployed","retired"],
+    contact: "🏛️ Visit nearest Gram Panchayat"
+  },
+  {
+    name: "Ayushman Bharat (PM-JAY)",
+    desc: "Free health insurance up to ₹5 lakh per year for hospitalisation expenses.",
+    category: "Health",
+    amount: "₹5 lakh/year",
+    minAge: 0, maxAge: 100, maxIncome: 200000,
+    occupations: ["farmer","laborer","unemployed","retired","other"],
+    contact: "📞 Helpline: 14555"
+  },
+  {
+    name: "PM Ujjwala Yojana",
+    desc: "Free LPG connection for women from below poverty line households to reduce indoor pollution.",
+    category: "Women & Family",
+    amount: "Free LPG Connection",
+    minAge: 18, maxAge: 100, maxIncome: 150000,
+    occupations: ["farmer","laborer","unemployed","other"],
+    gender: "female",
+    contact: "🔥 Visit nearest LPG distributor"
+  },
+  {
+    name: "Senior Citizen Savings Scheme (SCSS)",
+    desc: "High-interest savings scheme at 8.2% per annum exclusively for senior citizens.",
+    category: "Finance",
+    amount: "8.2% interest p.a.",
+    minAge: 60, maxAge: 100, maxIncome: 9999999,
+    occupations: ["farmer","laborer","unemployed","retired","other"],
+    contact: "🏦 Visit nearest Post Office or SBI"
+  },
+  {
+    name: "Pradhan Mantri Fasal Bima Yojana",
+    desc: "Crop insurance to protect farmers against losses due to natural calamities, pests, or diseases.",
+    category: "Agriculture",
+    amount: "Varies by crop",
+    minAge: 18, maxAge: 100, maxIncome: 9999999,
+    occupations: ["farmer"],
+    contact: "🌾 Contact nearest bank or insurance company"
+  },
+  {
+    name: "National Social Assistance Programme (NSAP)",
+    desc: "Financial assistance for widows, disabled persons, and elderly BPL families.",
+    category: "Social Welfare",
+    amount: "₹300–500/month",
+    minAge: 40, maxAge: 100, maxIncome: 100000,
+    occupations: ["farmer","laborer","unemployed","retired","other"],
+    contact: "🏛️ Visit District Social Welfare Office"
+  },
+  {
+    name: "Mahatma Gandhi NREGA",
+    desc: "Guaranteed 100 days of wage employment per year for rural households.",
+    category: "Employment",
+    amount: "₹200–300/day",
+    minAge: 18, maxAge: 100, maxIncome: 150000,
+    occupations: ["farmer","laborer","unemployed"],
+    contact: "🏛️ Visit nearest Gram Panchayat"
+  },
+  {
+    name: "PM Awas Yojana (Gramin)",
+    desc: "Financial assistance of ₹1.2 lakh for construction of pucca house in rural areas.",
+    category: "Housing",
+    amount: "₹1.2 lakh",
+    minAge: 18, maxAge: 100, maxIncome: 200000,
+    occupations: ["farmer","laborer","unemployed","retired","other"],
+    contact: "🏠 Visit Block Development Office"
+  },
+  {
+    name: "Atal Pension Yojana",
+    desc: "Guaranteed monthly pension of ₹1,000–₹5,000 after age 60 for unorganised sector workers.",
+    category: "Pension",
+    amount: "₹1,000–5,000/month",
+    minAge: 18, maxAge: 40, maxIncome: 9999999,
+    occupations: ["farmer","laborer","other"],
+    contact: "🏦 Visit nearest bank or post office"
+  }
+];
+
+let matchedSchemes = [];
+let activeCategory = "All";
+
+function findSchemes() {
+  const age = parseInt(document.getElementById('age').value);
+  const gender = document.getElementById('gender').value;
+  const occupation = document.getElementById('occupation').value;
+  const income = parseInt(document.getElementById('income').value);
+
+  if (!age || !gender || !occupation || !income) {
+    alert("Please fill in all fields to find your schemes.");
+    return;
+  }
+
+  matchedSchemes = SCHEMES.filter(s => {
+    if (age < s.minAge || age > s.maxAge) return false;
+    if (income > s.maxIncome) return false;
+    if (!s.occupations.includes(occupation)) return false;
+    if (s.gender && s.gender !== gender) return false;
+    return true;
+  });
+
+  activeCategory = "All";
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-cat="All"]').classList.add('active');
+
+  renderSchemes();
+}
+
+function filterCategory(el) {
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeCategory = el.dataset.cat;
+  renderSchemes();
+}
+
+function renderSchemes() {
+  const filtered = activeCategory === "All"
+    ? matchedSchemes
+    : matchedSchemes.filter(s => s.category === activeCategory);
+
+  const header = document.getElementById('resultsHeader');
+  const tip = document.getElementById('tipBanner');
+  const out = document.getElementById('output');
+  const countNum = document.getElementById('countNum');
+
+  if (matchedSchemes.length === 0) {
+    header.style.display = 'none';
+    tip.style.display = 'none';
+    out.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">😔</div>
+        <h3>No schemes found</h3>
+        <p>Based on your profile, no schemes matched. Try visiting your nearest Gram Panchayat for personalised guidance.</p>
+      </div>`;
+    return;
+  }
+
+  header.style.display = 'flex';
+  tip.style.display = 'flex';
+  countNum.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    out.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><h3>No schemes in this category</h3><p>Try selecting a different category or "All".</p></div>`;
+    return;
+  }
+
+  const catClass = {
+    "Agriculture": "cat-Agriculture",
+    "Pension": "cat-Pension",
+    "Health": "cat-Health",
+    "Finance": "cat-Finance",
+    "Employment": "cat-Employment",
+    "Housing": "cat-Housing",
+    "Social Welfare": "cat-Social",
+    "Women & Family": "cat-Women"
+  };
+
+  out.innerHTML = `<div class="schemes-grid">${filtered.map((s, i) => `
+    <div class="scheme-card" style="animation-delay:${i * 0.07}s">
+      <div class="card-top">
+        <div class="scheme-name">${s.name}</div>
+        <span class="category-badge ${catClass[s.category] || ''}">${s.category}</span>
+      </div>
+      <p class="scheme-desc">${s.desc}</p>
+      <div class="card-footer">
+        <span class="contact-info">${s.contact}</span>
+        <span class="amount-highlight">💰 ${s.amount}</span>
+      </div>
+    </div>`).join('')}</div>`;
+}
+</script>
+</body>
+</html>
